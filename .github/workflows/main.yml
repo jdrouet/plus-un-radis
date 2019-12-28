@@ -1,0 +1,29 @@
+name: test build and deploy
+
+on: [push]
+
+jobs:
+  build-and-deploy:
+    name: install dependencies, test and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+      - name: install dependencies
+        run: npm ci
+      # TODO: doesn't exit... have to find out why
+      # - name: test project
+      #   run: npm test -- --all --ci --forceExit
+      - name: build project
+        run: npm run build
+        env:
+          NODE_ENV: production
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./build
