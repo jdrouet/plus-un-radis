@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://jdrouet.github.io/plus-un-radis/",
   "dependencies": {
+    "@material-ui/core": "^4.8.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.2",
