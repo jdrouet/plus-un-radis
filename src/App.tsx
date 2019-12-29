@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from './component/Loader';
+import { usePosition } from './service/position';
 import './App.css';
 
 const Map = React.lazy(() =>
@@ -7,9 +8,10 @@ const Map = React.lazy(() =>
     .then(() => import('./component/Map')));
 
 const App: React.FC = () => {
+  const position = usePosition();
   return (
     <React.Suspense fallback={<Loader />}>
-      <Map className="App-map" />
+      <Map className="App-map" position={position} />
     </React.Suspense>
   );
 }
