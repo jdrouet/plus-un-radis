@@ -1,12 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import L from 'leaflet';
-import { Marker } from 'react-leaflet';
 import { Seller } from '../model/seller';
+import EntityMarker, { EntityMarkerProps } from './EntityMarker';
 
-export type SellerMarkerProps = {
-  seller: Seller;
-  onClick: (value: Seller) => any;
-};
+export type SellerMarkerProps = EntityMarkerProps<Seller>;
 
 export const sellerIcon = new L.Icon({
   iconAnchor: [0, 0],
@@ -14,9 +11,8 @@ export const sellerIcon = new L.Icon({
   iconUrl: 'image/033-stall.svg',
 });
 
-const SellerMarker: React.FC<SellerMarkerProps> = function({ seller, onClick }) {
-  const handleClick = useCallback(() => onClick(seller), [onClick, seller]);
-  return <Marker icon={sellerIcon} onClick={handleClick} position={seller.position} />;
+const SellerMarker: React.FC<SellerMarkerProps> = function({ onClick, value }) {
+  return <EntityMarker icon={sellerIcon} onClick={onClick} value={value} />;
 };
 
 export default SellerMarker;

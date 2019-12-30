@@ -1,11 +1,9 @@
 import React from 'react';
 import L from 'leaflet';
-import { Marker } from 'react-leaflet';
 import { Producer } from '../model/producer';
+import EntityMarker, { EntityMarkerProps } from './EntityMarker';
 
-export type ProducerMarkerProps = {
-  producer: Producer;
-};
+export type ProducerMarkerProps = EntityMarkerProps<Producer>;
 
 export const producerIcon = new L.Icon({
   iconAnchor: [0, 0],
@@ -13,8 +11,8 @@ export const producerIcon = new L.Icon({
   iconUrl: 'image/040-farmer.svg',
 });
 
-const ProducerMarker: React.FC<ProducerMarkerProps> = function(props) {
-  return <Marker icon={producerIcon} position={props.producer.position} />;
+const ProducerMarker: React.FC<ProducerMarkerProps> = function({ onClick, value }) {
+  return <EntityMarker icon={producerIcon} value={value} onClick={onClick} />;
 };
 
 export default ProducerMarker;
