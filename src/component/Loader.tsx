@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Loader: React.FC = () => {
+const Loader: React.FC = function() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
       <CircularProgress color="secondary" />
     </div>
   );
-}
+};
 
 export default Loader;

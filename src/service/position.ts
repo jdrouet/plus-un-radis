@@ -1,9 +1,9 @@
 import { LatLngTuple } from 'leaflet';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export const usePosition = function(): LatLngTuple | undefined {
-  const [position, setPosition] = useState();
+export type PositionCallback = (value: LatLngTuple) => any | undefined;
 
+export const usePositionEffect = function(callback: PositionCallback) {
   useEffect(() => {
     if (!navigator.geolocation) {
       console.warn('Geolocation is not supported');
@@ -11,12 +11,15 @@ export const usePosition = function(): LatLngTuple | undefined {
     }
 
     navigator.geolocation.getCurrentPosition((current) => {
-      setPosition([
-        current.coords.latitude,
-        current.coords.longitude,
-      ])
+      callback([current.coords.latitude, current.coords.longitude]);
     });
-  }, [setPosition]);
+  }, [callback]);
+};
+
+export const usePosition = function(defaultValue: LatLngTuple): LatLngTuple {
+  const [position, setPosition] = useState(defaultValue);
+
+  usePositionEffect(setPosition);
 
   return position;
 };

@@ -1,25 +1,44 @@
-import React, { ReactNode } from 'react';
+import React, { useCallback, ReactNode } from 'react';
+import { useDebounceCallback } from '@react-hook/debounce';
 import { LatLngTuple } from 'leaflet';
 import { Map, TileLayer } from 'react-leaflet';
+import { makeStyles } from '@material-ui/core/styles';
 import 'leaflet/dist/leaflet.css';
 
 export type CustomMapType = {
-  className?: string,
-  children?: ReactNode,
-  position?: LatLngTuple,
+  children?: ReactNode;
+  onChangePosition: (position: LatLngTuple) => any | undefined;
+  position: LatLngTuple;
 };
 
-const CustomMap: React.FC<CustomMapType> = (props) => {
-  const position: LatLngTuple = props.position || [51.505, -0.09];
+const useStyles = makeStyles(() => ({
+  root: {
+    position: 'fixed',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
+}));
+
+const CustomMap: React.FC<CustomMapType> = ({ children, onChangePosition, position }) => {
+  const classes = useStyles();
+
+  const handleMoveEnd = useCallback(
+    (event) => {
+      const center = event.target.getCenter();
+      onChangePosition([center.lat, center.lng]);
+    },
+    [onChangePosition],
+  );
+  const handleMoveEndDebounce = useDebounceCallback(handleMoveEnd, 250);
+
   return (
-    <Map className={props.className} center={position} zoom={13}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-      />
-      {props.children}
+    <Map className={classes.root} center={position} onMoveend={handleMoveEndDebounce} zoom={13}>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {children}
     </Map>
   );
-}
+};
 
 export default CustomMap;
