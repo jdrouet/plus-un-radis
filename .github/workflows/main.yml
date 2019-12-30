@@ -14,6 +14,8 @@ jobs:
           node-version: '13.x'
       - name: install dependencies
         run: npm ci
+      - name: lint sources
+        run: npm run lint
       # TODO: doesn't exit... have to find out why
       # - name: test project
       #   run: npm test -- --all --ci --forceExit
