@@ -2,21 +2,21 @@ import { LatLngTuple } from 'leaflet';
 import { useState, useEffect } from 'react';
 import { get } from '../service/server';
 
-export type Seller = {
+export type Producer = {
   id: string;
   name: string;
   position: LatLngTuple;
   address: string;
 };
 
-export const useSellers = function(): Seller[] | undefined {
-  const [sellers, setSellers] = useState();
+export const useProducers = function(): Producer[] | undefined {
+  const [producers, setProducers] = useState();
 
   useEffect(() => {
-    get('api/sellers/list.json')
-      .then(setSellers)
+    get('api/producers/list.json')
+      .then(setProducers)
       .catch(console.warn);
-  }, [setSellers]);
+  }, [setProducers]);
 
-  return sellers;
+  return producers;
 };
