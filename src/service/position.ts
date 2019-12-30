@@ -16,8 +16,8 @@ export const usePositionEffect = function(callback: PositionCallback) {
   }, [callback]);
 };
 
-export const usePosition = function(defaultValue: LatLngTuple): LatLngTuple {
-  const [position, setPosition] = useState(defaultValue);
+export const usePosition = function(): LatLngTuple | undefined {
+  const [position, setPosition] = useState<LatLngTuple>();
 
   usePositionEffect(setPosition);
 

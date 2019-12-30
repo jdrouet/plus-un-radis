@@ -1,22 +1,23 @@
 import React from 'react';
-import { Marker } from 'react-leaflet';
 import { LatLngTuple } from 'leaflet';
 
-import { usePositionEffect } from '../service/position';
+import { usePosition } from '../service/position';
 import { useStoredState } from '../service/storage';
 import { useSellers } from '../model/seller';
 import CustomMap from '../component/Map';
+import SellerMarker from '../component/SellerMarker';
 
 const MapView: React.FC = function() {
   const sellers = useSellers();
-  const [position, setPosition] = useStoredState<LatLngTuple>('position', [51.505, -0.09]);
+  const [position, setPosition] = useStoredState<LatLngTuple>('position');
+  const currentPosition = usePosition();
 
-  usePositionEffect(setPosition);
+  const mapPosition = position || currentPosition || [51.505, -0.09];
 
   return (
-    <CustomMap position={position} onChangePosition={setPosition}>
+    <CustomMap position={mapPosition} onChangePosition={setPosition}>
       {sellers?.map((seller) => (
-        <Marker key={seller.id} position={seller.position} />
+        <SellerMarker key={seller.id} seller={seller} />
       ))}
     </CustomMap>
   );

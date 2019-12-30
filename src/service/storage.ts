@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-export const getItem = function<T>(key: string, defaultValue: T): T {
+export const getItem = function<T>(key: string, defaultValue?: T): T | undefined {
   const result = window.localStorage.getItem(key);
   if (!result) {
     return defaultValue;
@@ -19,8 +19,8 @@ export const setItem = function(key: string, value: any) {
 
 export const useStoredState = function<T>(
   key: string,
-  defaultValue: T,
-): [T, React.Dispatch<React.SetStateAction<T>>] {
+  defaultValue?: T,
+): [T | undefined, React.Dispatch<React.SetStateAction<T>>] {
   const value = getItem(key, defaultValue);
   const [state, setState] = useState(value);
   const setValue = useCallback(
