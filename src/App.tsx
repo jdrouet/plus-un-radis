@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from './component/Loader';
+import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 
 const Map = React.lazy(() =>
@@ -8,9 +9,16 @@ const Map = React.lazy(() =>
 
 const App: React.FC = () => {
   return (
-    <React.Suspense fallback={<Loader />}>
-      <Map />
-    </React.Suspense>
+    <Router>
+      <Switch>
+        <Route path="/map">
+          <React.Suspense fallback={<Loader />}>
+            <Map />
+          </React.Suspense>
+        </Route>
+        <Redirect to="/map" />
+      </Switch>
+    </Router>
   );
 };
 
