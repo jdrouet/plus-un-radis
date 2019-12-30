@@ -1,13 +1,8 @@
-import { LatLngTuple } from 'leaflet';
 import { useState, useEffect } from 'react';
 import { get } from '../service/server';
+import { Entity } from './entity';
 
-export type Producer = {
-  id: string;
-  name: string;
-  position: LatLngTuple;
-  address: string;
-};
+export type Producer = Entity;
 
 export const useProducers = function(): Producer[] | undefined {
   const [producers, setProducers] = useState();

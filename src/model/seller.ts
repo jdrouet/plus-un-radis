@@ -1,13 +1,8 @@
-import { LatLngTuple } from 'leaflet';
 import { useState, useEffect } from 'react';
 import { get } from '../service/server';
+import { Entity } from './entity';
 
-export type Seller = {
-  id: string;
-  name: string;
-  position: LatLngTuple;
-  address: string;
-};
+export type Seller = Entity;
 
 export const useSellers = function(): Seller[] | undefined {
   const [sellers, setSellers] = useState();
